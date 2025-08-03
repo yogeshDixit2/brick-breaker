@@ -64,8 +64,8 @@ const GameCanvas = ({
             brick.y = y;
 
             const brickGradient = ctx.createLinearGradient(x, y, x, y + BRICK_HEIGHT);
-            brickGradient.addColorStop(0, "#3B82F6");
-            brickGradient.addColorStop(1, "#2563EB");
+            brickGradient.addColorStop(0, "#010801ff");
+            brickGradient.addColorStop(1, "#6e1e5aff");
             ctx.fillStyle = brickGradient;
             ctx.beginPath();
             ctx.roundRect(x, y, BRICK_WIDTH, BRICK_HEIGHT, 4);
@@ -85,10 +85,9 @@ const GameCanvas = ({
         ball.current.y,
         BALL_RADIUS
       );
-      ballGradient.addColorStop(0, "#f87171");
       ballGradient.addColorStop(1, "#b91c1c");
       ctx.fillStyle = ballGradient;
-      ctx.shadowColor = "#f87171";
+      ctx.shadowColor = "#760e0eff";
       ctx.shadowBlur = 10;
       ctx.beginPath();
       ctx.arc(ball.current.x, ball.current.y, BALL_RADIUS, 0, Math.PI * 2);
@@ -96,12 +95,12 @@ const GameCanvas = ({
       ctx.shadowBlur = 0;
 
       // Paddle
-      ctx.fillStyle = "#10B981";
+      ctx.fillStyle = "#38836bff";
       ctx.shadowColor = "#10B981";
-      ctx.shadowBlur = 15;
+      const paddleY = CANVAS_HEIGHT - PADDLE_HEIGHT - 10;
       ctx.fillRect(
         paddle.current.x,
-        CANVAS_HEIGHT - PADDLE_HEIGHT - 10,
+        paddleY,
         PADDLE_WIDTH,
         PADDLE_HEIGHT
       );
@@ -136,36 +135,41 @@ const GameCanvas = ({
         }
       }
 
-      // Walls & paddle collision
+      // Walls
       if (
         ball.current.x + ball.current.dx > CANVAS_WIDTH - BALL_RADIUS ||
         ball.current.x + ball.current.dx < BALL_RADIUS
-      )
+      ) {
         ball.current.dx = -ball.current.dx;
-
+      }
       if (ball.current.y + ball.current.dy < BALL_RADIUS) {
         ball.current.dy = -ball.current.dy;
-      } else if (
-        ball.current.y + ball.current.dy >
-        CANVAS_HEIGHT - BALL_RADIUS
+      }
+      // Paddle collision
+      else if (
+        ball.current.y + ball.current.dy + BALL_RADIUS >= paddleY &&
+        ball.current.y + BALL_RADIUS <= paddleY + PADDLE_HEIGHT &&
+        ball.current.x >= paddle.current.x &&
+        ball.current.x <= paddle.current.x + PADDLE_WIDTH
       ) {
-        if (
-          ball.current.x > paddle.current.x &&
-          ball.current.x < paddle.current.x + PADDLE_WIDTH
-        ) {
-          ball.current.dy = -ball.current.dy;
+        ball.current.dy = -ball.current.dy;
+        // Optional: adjust dx based on hit position for more dynamic bounce
+      }
+      // Missed paddle
+      else if (
+        ball.current.y + ball.current.dy > CANVAS_HEIGHT - BALL_RADIUS
+      ) {
+        const remainingLives = lives - 1;
+        setLives(remainingLives);
+        if (remainingLives === 0) {
+          setGameState("GAME_OVER");
         } else {
-          const remainingLives = lives - 1;
-          setLives(remainingLives);
-          if (remainingLives === 0) {
-            setGameState("GAME_OVER");
-          } else {
-            ball.current.x = CANVAS_WIDTH / 2;
-            ball.current.y = CANVAS_HEIGHT - PADDLE_HEIGHT - BALL_RADIUS - 10;
-            ball.current.dx = 4;
-            ball.current.dy = -4;
-            paddle.current.x = (CANVAS_WIDTH - PADDLE_WIDTH) / 2;
-          }
+          // Reset ball position
+          ball.current.x = CANVAS_WIDTH / 2;
+          ball.current.y = CANVAS_HEIGHT - PADDLE_HEIGHT - BALL_RADIUS - 10;
+          ball.current.dx = 4;
+          ball.current.dy = -4;
+          paddle.current.x = (CANVAS_WIDTH - PADDLE_WIDTH) / 2;
         }
       }
 
@@ -180,6 +184,7 @@ const GameCanvas = ({
     if (gameState === "PLAYING") {
       draw();
     }
+
     return () => cancelAnimationFrame(animationId);
   }, [gameState, score, lives]);
 

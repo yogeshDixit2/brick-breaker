@@ -15,4 +15,3 @@ export const PADDLE_HEIGHT = 10;
 
 export const BALL_RADIUS = 8;
 
-

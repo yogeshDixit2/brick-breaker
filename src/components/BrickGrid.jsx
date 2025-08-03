@@ -16,7 +16,7 @@ import {
 const BrickBreaker = () => {
   const [gameState, setGameState] = useState("START");
   const [score, setScore] = useState(0);
-  const [lives, setLives] = useState(3);
+  const [lives, setLives] = useState(2);
 
   const paddle = useRef({ x: (CANVAS_WIDTH - PADDLE_WIDTH) / 2 });
   const ball = useRef({
@@ -57,28 +57,43 @@ const BrickBreaker = () => {
 
   return (
     <div className="relative flex flex-col items-center justify-center p-4 min-h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black">
-      {gameState === "START" && <StartScreen onStart={() => setGameState("PLAYING")} />}
-      {(gameState === "GAME_OVER" || gameState === "WIN") && (
+      {gameState === "START" && (
+        <StartScreen onStart={() => setGameState("PLAYING")} />
+      )}
+      {gameState === "GAME_OVER" && (
         <GameOverScreen
           gameState={gameState}
+          score={score}
           onRestart={() => {
             resetGame();
             setGameState("PLAYING");
           }}
         />
       )}
-      <GameCanvas
-        gameState={gameState}
-        setGameState={setGameState}
-        score={score}
-        setScore={setScore}
-        lives={lives}
-        setLives={setLives}
-        paddle={paddle}
-        ball={ball}
-        bricksRef={bricksRef}
-        resetGame={resetGame}
-      />
+      {gameState === "WIN" && (
+        <GameOverScreen
+          gameState={gameState}
+          score={score}
+          onRestart={() => {
+            resetGame();
+            setGameState("PLAYING");
+          }}
+        />
+      )}
+      {gameState === "PLAYING" && (
+        <GameCanvas
+          gameState={gameState}
+          setGameState={setGameState}
+          score={score}
+          setScore={setScore}
+          lives={lives}
+          setLives={setLives}
+          paddle={paddle}
+          ball={ball}
+          bricksRef={bricksRef}
+          resetGame={resetGame}
+        />
+      )}
     </div>
   );
 };
