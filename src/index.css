@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+canvas {
+  display: block;
+  margin: 0 auto;
+  background: #111;
+}
+.start-screen, .game-over-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: white;
+  text-align: center;
+  animation: fadeIn 1s ease;
+}
+.title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.start-button, .restart-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.2rem;
+  background: #ff4136;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.start-button:hover, .restart-button:hover {
+  background: #ff725c;
+}
+.game-canvas {
+  display: block;
+  margin: 1rem auto;
+  background: #111;
+  border: 2px solid #fff;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
