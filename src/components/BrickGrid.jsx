@@ -1,4 +1,3 @@
-// components/BrickBreaker.jsx
 import React, { useRef, useState, useEffect } from "react";
 import GameCanvas from "./GameCanvas";
 import StartScreen from "./StartScreen";

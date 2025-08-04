@@ -32,7 +32,6 @@ const GameCanvas = ({
     const ctx = canvasRef.current.getContext("2d");
     let animationId;
 
-    // Polyfill roundRect
     if (!ctx.roundRect) {
       ctx.roundRect = function (x, y, width, height, radius) {
         ctx.beginPath();
@@ -50,11 +49,9 @@ const GameCanvas = ({
     }
 
     const draw = () => {
-      // Dark background
       ctx.fillStyle = "#111";
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Bricks
       bricksRef.current.forEach((col, c) => {
         col.forEach((brick, r) => {
           if (brick.status) {
@@ -76,7 +73,6 @@ const GameCanvas = ({
         });
       });
 
-      // Ball
       const ballGradient = ctx.createRadialGradient(
         ball.current.x,
         ball.current.y,
@@ -94,7 +90,6 @@ const GameCanvas = ({
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      // Paddle
       ctx.fillStyle = "#38836bff";
       ctx.shadowColor = "#10B981";
       const paddleY = CANVAS_HEIGHT - PADDLE_HEIGHT - 10;
@@ -106,13 +101,11 @@ const GameCanvas = ({
       );
       ctx.shadowBlur = 0;
 
-      // Score & Lives
       ctx.font = "18px 'Press Start 2P', cursive";
       ctx.fillStyle = "#e5e7eb";
       ctx.fillText(`Score: ${score}`, 8, 20);
       ctx.fillText(`Lives: ${lives}`, CANVAS_WIDTH - 140, 20);
 
-      // Brick collision
       for (let c = 0; c < COL_COUNT; c++) {
         for (let r = 0; r < ROW_COUNT; r++) {
           const b = bricksRef.current[c][r];
@@ -135,7 +128,6 @@ const GameCanvas = ({
         }
       }
 
-      // Walls
       if (
         ball.current.x + ball.current.dx > CANVAS_WIDTH - BALL_RADIUS ||
         ball.current.x + ball.current.dx < BALL_RADIUS
@@ -144,19 +136,14 @@ const GameCanvas = ({
       }
       if (ball.current.y + ball.current.dy < BALL_RADIUS) {
         ball.current.dy = -ball.current.dy;
-      }
-      // Paddle collision
-      else if (
+      } else if (
         ball.current.y + ball.current.dy + BALL_RADIUS >= paddleY &&
         ball.current.y + BALL_RADIUS <= paddleY + PADDLE_HEIGHT &&
         ball.current.x >= paddle.current.x &&
         ball.current.x <= paddle.current.x + PADDLE_WIDTH
       ) {
         ball.current.dy = -ball.current.dy;
-        // Optional: adjust dx based on hit position for more dynamic bounce
-      }
-      // Missed paddle
-      else if (
+      } else if (
         ball.current.y + ball.current.dy > CANVAS_HEIGHT - BALL_RADIUS
       ) {
         const remainingLives = lives - 1;
@@ -164,7 +151,6 @@ const GameCanvas = ({
         if (remainingLives === 0) {
           setGameState("GAME_OVER");
         } else {
-          // Reset ball position
           ball.current.x = CANVAS_WIDTH / 2;
           ball.current.y = CANVAS_HEIGHT - PADDLE_HEIGHT - BALL_RADIUS - 10;
           ball.current.dx = 4;
@@ -217,7 +203,8 @@ const GameCanvas = ({
       ref={canvasRef}
       width={CANVAS_WIDTH}
       height={CANVAS_HEIGHT}
-      className="rounded-lg shadow-2xl border-2 border-gray-700 bg-black"
+      className="rounded-lg shadow-2xl border-2 border-gray-700 bg-black w-full h-auto block"
+      style={{ maxWidth: "100%", height: "auto" }}
     />
   );
 };
