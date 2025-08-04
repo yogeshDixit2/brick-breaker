@@ -1,6 +1,6 @@
 // App.jsx
 import React from "react";
-import BrickBreaker from "./components/BrickGrid";
+import BrickBreaker from "./components/BrickBreaker";
 
 const App = () => {
   return (
