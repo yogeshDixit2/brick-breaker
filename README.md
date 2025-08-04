@@ -1,12 +1,22 @@
-# React + Vite
+#  Brick Breaker Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A classic Brick Breaker game built with **React.js** and **HTML5 Canvas**.
 
-Currently, two official plugins are available:
+This project demonstrates:
+- Modular React components
+- Canvas rendering for game graphics
+- Game loop and collision detection logic
+- Custom styling and animations
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+##  Demo
+ [Live Demo on Netlify](https://brickbreakergame.netlify.app/)  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+##  Features
+✅ Start Screen  
+✅ Responsive Paddle Control  
+✅ Ball Physics and Collision Detection  
+✅ Brick Grid with Destruction  
+✅ Game Over Screen with Restart  
+✅ Modular Code Structure  
