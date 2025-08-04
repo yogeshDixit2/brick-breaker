@@ -11,7 +11,7 @@ This project demonstrates:
 ---
 
 ##  Demo
- [Live Demo on Netlify](https://your-netlify-url.netlify.app)  
+ [Live Demo on Netlify](https://brickbreakergame.netlify.app/)  
 
 ##  Features
 ✅ Start Screen  
